@@ -5,11 +5,11 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
-const Header = (props) => {
+const Header = (props ) => {
   const title = props.title
   return (
-    <Paper
-      component="div"
+    <Paper 
+      component="div" 
       sx={{
         display: "flex",
         justifyContent: "space-around",
