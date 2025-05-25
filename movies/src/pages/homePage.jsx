@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MovieList from "../components/movieList";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid"; // Changed from Grid2
+import Header from '../components/headerMovieList';
+import FilterCard from "../components/filterMoviesCard";
 
 const HomePage = (props) => {
   const [movies, setMovies] = useState([]);
@@ -11,6 +13,7 @@ const HomePage = (props) => {
     )
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         return json.results;
       })
       .then((movies) => {
@@ -20,10 +23,14 @@ const HomePage = (props) => {
 
   return (
     <Grid container>
-      <Grid xs={12}>
-        <h1> HomePage </h1>
+      <Grid xs={12}> {/* Changed from size={12} */}
+        <Header title={"Home Page"} />
       </Grid>
-      <Grid container>
+      {/* Added spacing to the container holding FilterCard and MovieList */}
+      <Grid container spacing={2}> 
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2}> {/* Added 'item' and used breakpoint props directly */}
+          <FilterCard />
+        </Grid>
         <MovieList movies={movies}></MovieList>
       </Grid>
     </Grid>
