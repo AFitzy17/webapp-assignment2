@@ -35,9 +35,7 @@ export const getMovie = (args) => {
 
 export const getGenres = () => {
   return fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-      import.meta.env.VITE_TMDB_KEY +
-      "&language=en-US"
+    "http://localhost:8080/api/movies/genres"
   ).then( (response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -90,7 +88,7 @@ export const getMovieImages = ({ queryKey }) => {
 
 export const getUpcomingMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+    `http://localhost:8080/api/movies/upcoming`
   )
     .then((response) => {
       if (!response.ok) {
@@ -110,7 +108,7 @@ export const getUpcomingMovies = () => {
 //Fetch Now PLaying Movies from TMDB's API
 export const getNowPlayingMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+    `http://localhost:8080/api/movies/now_playing`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -127,7 +125,7 @@ export const getNowPlayingMovies = () => {
 //Fetch the most popular currently
 export const getPopularMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+    `http://localhost:8080/api/movies/popular`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -144,7 +142,7 @@ export const getPopularMovies = () => {
 //Fetch top-rated movies
 export const getTopRatedMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+    `http://localhost:8080/api/movies/top_rated`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -173,4 +171,26 @@ export const getMovieCredits = (id) => {
   .catch((error) => {
     throw error;
   });
+};
+
+export const login = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
+};
+
+export const signup = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users?action=register', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
 };
