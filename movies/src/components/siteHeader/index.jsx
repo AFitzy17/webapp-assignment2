@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = () => {
@@ -44,7 +45,7 @@ const SiteHeader = () => {
 
   return (
     <>
-      <AppBar position="fixed" color="secondary">
+      <AppBar style={{ background: "#d9595b" }} position="fixed" color="secondary">
         <Toolbar>
           <Typography variant="h4" sx={{ flexGrow: 1 }}>
             TMDB Client

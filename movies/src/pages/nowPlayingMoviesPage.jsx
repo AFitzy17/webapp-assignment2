@@ -3,7 +3,7 @@ import { getNowPlayingMovies } from "../api/tmdb-api"; // Import the new API fun
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
-import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'; // AddToFavorites functionality
+import AddToPlaylistIcon from '../components/cardIcons/addToPlaylist'; // AddToFavorites functionality
 
 const NowPlayingMoviesPage = (props) => {
 
@@ -25,14 +25,14 @@ const NowPlayingMoviesPage = (props) => {
  
   const favorites = movies.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites)) 
-  const addToFavorites = (movieId) => true
+  const addToPlaylist = (movieId) => true
 
   return (
     <PageTemplate
       title="Now Playing in Theaters"
       movies={movies}
       action={(movie) => {
-        return <AddToFavoritesIcon movie={movie} />
+        return <AddToPlaylistIcon movie={movie} />
       }}
     />
   );
