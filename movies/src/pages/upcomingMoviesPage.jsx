@@ -1,38 +1,34 @@
+
 import React from "react";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
-import AddToWatchlistIcon from '../components/cardIcons/addtoPlaylist'
+import AddToWatchlistIcon from '../components/cardIcons/addToPlaylist';
 
 const UpcomingMoviesPage = (props) => {
 
-  const { data, error, isPending, isError  } = useQuery({
+  const { data, error, isPending, isError } = useQuery({
     queryKey: ['upcoming'],
     queryFn: getUpcomingMovies,
-  })
+  });
   
   if (isPending) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>
-  }  
+    return <h1>{error.message}</h1>;
+  } 
   
   const movies = data.results;
 
-  // Redundant, but necessary to avoid app crashing.
-  const watchlist = movies.filter(m => m.watchlist)
-  localStorage.setItem('watchlist', JSON.stringify(watchlist))
-  const addToWatchlist = (movieId) => true 
-
-    return (
+  return (
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
       action={(movie) => {
-        return <AddToWatchlistIcon movie={movie} />
+        return <AddToWatchlistIcon movie={movie} />;
       }}
     />
   );
