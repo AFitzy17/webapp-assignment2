@@ -8,7 +8,7 @@ import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 const HomePage = (props) => {
 
   const { data, error, isPending, isError  } = useQuery({
-    queryKey: ['discover-home'],
+    queryKey: ['discover'],
     queryFn: getMovies,
   })
   
@@ -36,6 +36,5 @@ const HomePage = (props) => {
       }}
     />
   );
-  
 };
 export default HomePage;

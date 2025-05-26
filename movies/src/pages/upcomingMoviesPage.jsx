@@ -1,39 +1,40 @@
 import React from "react";
-import { getNewUpcomingMovies } from "../api/tmdb-api"; // Import the new upcoming movies fetch function
+import { getUpcomingMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
-import AddToFavoritesIcon from '../components/cardIcons/addToFavorites';
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 
-const AlternativeUpcomingMoviesPage = (props) => {
+const UpcomingMoviesPage = (props) => {
 
-  const { data, error, isPending, isError } = useQuery({
-    queryKey: ['new-upcoming'], // Use a distinct query key for this new fetch
-    queryFn: getNewUpcomingMovies, // Use the new fetching function
+  const { data, error, isPending, isError  } = useQuery({
+    queryKey: ['upcoming'],
+    queryFn: getUpcomingMovies,
   })
-
+  
   if (isPending) {
     return <Spinner />
   }
 
   if (isError) {
-    console.log("Data received on AlternativeUpcomingMoviesPage:", data);
     return <h1>{error.message}</h1>
-  }
-
+  }  
   
-
   const movies = data.results;
 
-  return (
+  // Redundant, but necessary to avoid app crashing.
+  const favorites = movies.filter(m => m.favorite)
+  localStorage.setItem('favorites', JSON.stringify(favorites))
+  const addToFavorites = (movieId) => true 
+
+    return (
     <PageTemplate
-      title="Alternative Upcoming Movies" // Give it a distinct title
+      title="Upcoming Movies"
       movies={movies}
       action={(movie) => {
         return <AddToFavoritesIcon movie={movie} />
       }}
     />
   );
-
 };
-export default AlternativeUpcomingMoviesPage;
+export default UpcomingMoviesPage;
