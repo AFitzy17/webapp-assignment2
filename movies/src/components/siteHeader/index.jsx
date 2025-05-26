@@ -25,9 +25,12 @@ const SiteHeader = () => {
 
   const menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favorites" },
     { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Must Watch", path: "movies/watchlist" },
+    { label: "Popular", path: "/movies/popular" },
+    { label: "Top Rated", path: "/movies/top_rated" },
+    { label: "Now in Theaters", path: "movies/now_playing" },
+    { label: "Favorites", path: "/movies/favorites" },
+    { label: "Watchlist", path: "movies/watchlist" }
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -47,7 +50,7 @@ const SiteHeader = () => {
             TMDB Client
           </Typography>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            All you ever wanted to know about Movies!
+            The world's best movies at your fingertips!
           </Typography>
             {isMobile ? (
               <>

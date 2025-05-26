@@ -10,6 +10,17 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews"
 
+// Imports for credits data display
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { useQuery } from '@tanstack/react-query';
+import { getMovieCredits } from "../../api/tmdb-api";
+import Spinner from '../spinner';
+
 const root = {
     display: "flex",
     justifyContent: "center",
@@ -22,6 +33,22 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {  // Don't miss this!
 const [drawerOpen, setDrawerOpen] = useState(false);
+
+ const { data: creditsData, error: creditsError, isPending: creditsIsPending, isError: creditsIsError } = useQuery({
+    queryKey: ['credits', { id: movie.id }],
+    queryFn: () => getMovieCredits(movie.id),
+  });
+
+  if (creditsIsPending) {
+    return <Spinner />;
+  }
+
+  if (creditsIsError) {
+    return <h1>Error loading credits: {creditsError.message}</h1>;
+  }
+
+  const cast = creditsData?.cast || [];
+  const crew = creditsData?.crew || [];
 
   return (
     <>
@@ -71,6 +98,59 @@ const [drawerOpen, setDrawerOpen] = useState(false);
           </li>
         ))}
       </Paper>
+
+<Typography variant="h5" component="h3" sx={{ marginTop: 3, marginBottom: 1 }}>
+        Cast
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 550 }} aria-label="cast table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Character</TableCell>
+              <TableCell>Actor</TableCell>
+              <TableCell>Popularity</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {cast.slice(0, 10).map((c) => ( // Display top 10 cast members
+              <TableRow key={c.credit_id}>
+                <TableCell component="th" scope="row">
+                  {c.character}
+                </TableCell>
+                <TableCell>{c.name}</TableCell>
+                <TableCell>{c.popularity?.toFixed(2)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Typography variant="h5" component="h3" sx={{ marginTop: 4, marginBottom: 1 }}>
+        Crew (Key Roles)
+      </Typography>
+      <TableContainer component={Paper} sx={{ marginBottom: 2 }}>
+        <Table sx={{ minWidth: 550 }} aria-label="crew table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Department</TableCell>
+              <TableCell>Job</TableCell>
+              <TableCell>Name</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {crew.filter(c => c.job === "Director" || c.job === "Writer" || c.job === "Producer" || c.job === "Screenplay").map((c) => ( // Display key crew members
+              <TableRow key={c.credit_id}>
+                <TableCell component="th" scope="row">
+                  {c.department}
+                </TableCell>
+                <TableCell>{c.job}</TableCell>
+                <TableCell>{c.name}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
       <Fab
         color="secondary"
         variant="extended"

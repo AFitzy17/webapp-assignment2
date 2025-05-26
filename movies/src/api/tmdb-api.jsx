@@ -104,3 +104,73 @@ export const getUpcomingMovies = () => {
       throw error;
     });
 };
+
+// Assignment 1
+
+//Fetch Now PLaying Movies from TMDB's API
+export const getNowPlayingMovies = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+  });
+};
+
+//Fetch the most popular currently
+export const getPopularMovies = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+  });
+};
+
+//Fetch top-rated movies
+export const getTopRatedMovies = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+  });
+};
+
+// Fetch the movie credits
+export const getMovieCredits = (id) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error;
+  });
+};
